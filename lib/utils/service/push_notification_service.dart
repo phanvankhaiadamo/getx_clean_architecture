@@ -22,8 +22,10 @@ class PushNotificationService extends GetxService {
     await _firebaseMessaging.requestPermission(badge: false);
     _configLocalNotification();
 
-    onMessageListener = FirebaseMessaging.onMessage.listen(_handleNotificationOnForeground);
-    onMessageOpenedAppListener = FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationOnBackground);
+    onMessageListener =
+        FirebaseMessaging.onMessage.listen(_handleNotificationOnForeground);
+    onMessageOpenedAppListener = FirebaseMessaging.onMessageOpenedApp
+        .listen(_handleNotificationOnBackground);
   }
 
   void cancelNotification() {
@@ -36,8 +38,9 @@ class PushNotificationService extends GetxService {
   }
 
   void _configLocalNotification() async {
-    const initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-    const initializationSettingsIOS = IOSInitializationSettings();
+    const initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    const initializationSettingsIOS = DarwinInitializationSettings();
 
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -46,7 +49,7 @@ class PushNotificationService extends GetxService {
 
     await _localNotification.initialize(
       initializationSettings,
-      onSelectNotification: _handleLocalNotification,
+      // onSelectNotification: _handleLocalNotification,
     );
   }
 
@@ -60,7 +63,7 @@ class PushNotificationService extends GetxService {
       'fcm_default_channel_name',
       channelDescription: 'fcm_default_channel_description',
     );
-    const iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
     const platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,

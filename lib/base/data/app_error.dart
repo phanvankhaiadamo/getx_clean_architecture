@@ -61,21 +61,21 @@ class AppException {
     int? headerCode;
     StackTrace? stackTrace;
 
-    if (exception is DioError) {
-      message = exception.response?.statusMessage ?? exception.message;
+    if (exception is DioException) {
+      message = exception.response?.statusMessage ?? exception.message ?? '';
       headerCode = exception.response?.statusCode ?? -1;
 
       switch (exception.type) {
-        case DioErrorType.connectTimeout:
-        case DioErrorType.receiveTimeout:
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
           type = AppExceptionType.timeout;
           message = S.current.common_error_message;
           break;
-        case DioErrorType.sendTimeout:
+        case DioExceptionType.sendTimeout:
           type = AppExceptionType.network;
           message = S.current.network_error;
           break;
-        case DioErrorType.response:
+        case DioExceptionType.badResponse:
           switch (headerCode) {
             case HttpStatus.badRequest: // 400
               type = AppExceptionType.serverValidate;
@@ -98,13 +98,20 @@ class AppException {
               errorResponse = JsonMapper.fromMap<ErrorResponse>(response.data);
               title = errorResponse?.title;
               title = title?.isNotEmpty == true ? title : null;
-              final errorMessage = errorResponse?.message ?? S.current.server_error_message;
-              message = errorMessage.isEmpty ? S.current.server_error_message : errorMessage;
-              if (headerCode >= 500 && headerCode < 600 && errorResponse?.code == null) {
+              final errorMessage =
+                  errorResponse?.message ?? S.current.server_error_message;
+              message = errorMessage.isEmpty
+                  ? S.current.server_error_message
+                  : errorMessage;
+              if (headerCode >= 500 &&
+                  headerCode < 600 &&
+                  errorResponse?.code == null) {
                 message = S.current.common_error_message;
               }
               if (errorResponse?.code != null) {
-                message = serverErrors[errorResponse!.code] != null ? serverErrors[errorResponse.code]! : message;
+                message = serverErrors[errorResponse!.code] != null
+                    ? serverErrors[errorResponse.code]!
+                    : message;
                 message = '$message(${errorResponse.code})';
               }
             } catch (e) {
@@ -119,10 +126,10 @@ class AppException {
             }
           }
           break;
-        case DioErrorType.cancel:
+        case DioExceptionType.cancel:
           type = AppExceptionType.cancel;
           break;
-        case DioErrorType.other:
+        case DioExceptionType.unknown:
         default:
           if (exception.error is SocketException) {
             // SocketException: Failed host lookup: '***'

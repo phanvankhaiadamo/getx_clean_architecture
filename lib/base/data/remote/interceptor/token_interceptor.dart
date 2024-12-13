@@ -20,13 +20,15 @@ class TokenInterceptor extends QueuedInterceptorsWrapper {
   TokenInterceptor(this._dio);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     L.info('onRequest TokenInterceptor ${options.uri}');
 
     try {
       var localToken = await _localStorage.userToken;
       final expiredTime = await _localStorage.userTokenExpiredTime;
-      final isExpired = expiredTime != null && Jiffy(expiredTime).diff(Jiffy()) < 0;
+      final isExpired = expiredTime != null &&
+          Jiffy.parseFromDateTime(expiredTime).diff(Jiffy.now()) < 0;
       if (isExpired) {
         localToken = await _refreshToken();
       }
@@ -41,19 +43,22 @@ class TokenInterceptor extends QueuedInterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     L.error('onError TokenInterceptor ${err.requestOptions.uri}');
-    if (err.response?.statusCode == HttpStatus.unauthorized || err.response?.statusCode == HttpStatus.forbidden) {
+    if (err.response?.statusCode == HttpStatus.unauthorized ||
+        err.response?.statusCode == HttpStatus.forbidden) {
       try {
         // Check latest token
         final request = err.requestOptions;
         final requestToken = request.headers[_authHeaderKey] ?? '';
         final localToken = await _localStorage.userToken ?? '';
         var latestToken = '$_bearer $localToken';
-        if ((requestToken == latestToken) || (requestToken.isEmpty && localToken.isEmpty)) {
+        if ((requestToken == latestToken) ||
+            (requestToken.isEmpty && localToken.isEmpty)) {
           latestToken = '$_bearer ${await _refreshToken()}';
         }
 
         // Update header
-        request.headers.update(_authHeaderKey, (_) => latestToken, ifAbsent: () => latestToken);
+        request.headers.update(_authHeaderKey, (_) => latestToken,
+            ifAbsent: () => latestToken);
 
         // Re-call request
         L.info('re-call request ${request.uri}');
@@ -98,7 +103,8 @@ class TokenInterceptor extends QueuedInterceptorsWrapper {
   }
 
   void _logoutIfNeeded(DioError e) {
-    if (e.response?.statusCode == HttpStatus.unauthorized || e.response?.statusCode == HttpStatus.forbidden) {
+    if (e.response?.statusCode == HttpStatus.unauthorized ||
+        e.response?.statusCode == HttpStatus.forbidden) {
       Get.find<AuthService>().logout();
     }
   }

@@ -5,15 +5,18 @@ import 'package:jiffy/jiffy.dart';
 
 extension DateTimeExtension on DateTime {
   String get dateString {
-    return Jiffy(this).format(AppConstants.dateFormat);
+    return Jiffy.parseFromDateTime(this)
+        .format(pattern: AppConstants.dateFormat);
   }
 
   String get datetimeString {
-    return Jiffy(this).format(AppConstants.dateTimeFormat);
+    return Jiffy.parseFromDateTime(this)
+        .format(pattern: AppConstants.dateTimeFormat);
   }
 
   DateTime get toMyLocal {
-    final dateTime = DateFormat('yyyy/MM/dd HH:mm:ss').parse(datetimeString, true);
+    final dateTime =
+        DateFormat('yyyy/MM/dd HH:mm:ss').parse(datetimeString, true);
 
     return dateTime.toLocal();
   }

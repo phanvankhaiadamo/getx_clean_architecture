@@ -24,11 +24,9 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 33
-
+    compileSdkVersion 34
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,26 +41,21 @@ android {
     }
 
     // TODO: recheck remove
-    lintOptions {
-        disable 'InvalidPackage'
-        // https://stackoverflow.com/a/66486972
-        checkReleaseBuilds false
-    }
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName "${flutterVersionName}"
     }
 
     signingConfigs {
-        debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storePassword 'android'
-            storeFile file('../keystore/debug/debug.keystore')
-        }
+        // debug {
+        //     keyAlias 'androiddebugkey'
+        //     keyPassword 'android'
+        //     storePassword 'android'
+        //     storeFile file('../keystore/debug/debug.keystore')
+        // }
         release {
             keyAlias 'jbbaseUploadKey'
             keyPassword 'jbbaserelease2022'
@@ -72,7 +65,7 @@ android {
     }
 
     buildTypes {
-        ndkVersion '25.1.8937393' 
+        ndkVersion '26.2.11394342'
         debug {
             signingConfig signingConfigs.debug
             minifyEnabled false
@@ -81,7 +74,6 @@ android {
             signingConfig signingConfigs.release
             shrinkResources true
             minifyEnabled true
-            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk {
                 debugSymbolLevel 'FULL'
@@ -110,6 +102,10 @@ android {
             resValue 'string', 'app_name', 'JBBase'
         }
     }
+    lint {
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+    }
 }
 
 flutter {
@@ -123,10 +119,9 @@ dependencies {
 
     // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-core:21.0.0' 
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
 }
 
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'

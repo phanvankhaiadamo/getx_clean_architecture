@@ -38,7 +38,8 @@ extension UserStorageEx on LocalStorage {
   Future<void> saveUserRefreshToken(String? userRefreshToken) async {
     if (userRefreshToken == null) return;
 
-    return secureStorage.write(key: _kUserRefreshToken, value: userRefreshToken);
+    return secureStorage.write(
+        key: _kUserRefreshToken, value: userRefreshToken);
   }
 
   Future<void> removeUserRefreshToken() {
@@ -49,13 +50,16 @@ extension UserStorageEx on LocalStorage {
   Future<DateTime?> get userTokenExpiredTime async {
     final time = await secureStorage.read(key: _kUserTokenExpiredTime);
 
-    return time != null ? Jiffy(time).dateTime : null;
+    return time != null ? Jiffy.parse(time).dateTime : null;
   }
 
   Future<void> saveUserTokenExpiredTime(int? userTokenExpiredTime) async {
     if (userTokenExpiredTime == null) return;
 
-    final time = Jiffy().add(seconds: userTokenExpiredTime - 10).dateTime.toIso8601String();
+    final time = Jiffy.now()
+        .add(seconds: userTokenExpiredTime - 10)
+        .dateTime
+        .toIso8601String();
 
     return secureStorage.write(key: _kUserTokenExpiredTime, value: time);
   }

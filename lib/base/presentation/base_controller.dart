@@ -110,4 +110,7 @@ class BaseController<T> extends SuperController {
       );
     };
   }
+
+  @override
+  void onHidden() {}
 }

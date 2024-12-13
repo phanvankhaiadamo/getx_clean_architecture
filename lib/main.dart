@@ -1,4 +1,4 @@
-import 'package:catcher/catcher.dart';
+import 'package:catcher_2/catcher_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -16,7 +16,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeJsonMapper();
 
-  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding =
+      WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // await Firebase.initializeApp();
@@ -27,12 +28,13 @@ void main() async {
 
   Get.put(LocalStorage(), permanent: true);
 
-  final CatcherOptions debugOptions = CatcherOptions(SilentReportMode(), [
+  final Catcher2Options debugOptions = Catcher2Options(SilentReportMode(), [
     ConsoleHandler(),
   ]);
-  final CatcherOptions releaseOptions = CatcherOptions(SilentReportMode(), []);
+  final Catcher2Options releaseOptions =
+      Catcher2Options(SilentReportMode(), []);
 
-  Catcher(
+  Catcher2(
     runAppFunction: () {
       // Pass all uncaught errors from the framework to Crashlytics.
       // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;

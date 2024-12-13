@@ -87,12 +87,13 @@ class CustomLogInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     if (error) {
-      if (err.type == DioErrorType.response) {
+      if (err.type == DioExceptionType.badResponse) {
         final uri = err.response?.requestOptions.uri;
         _printBoxed(
-          header: '⛔ DioError ║ Status: ${err.response?.statusCode} ${err.response?.statusMessage} ║ ${DateTime.now()}',
+          header:
+              '⛔ DioError ║ Status: ${err.response?.statusCode} ${err.response?.statusMessage} ║ ${DateTime.now()}',
           text: uri.toString(),
         );
         if (err.response != null && err.response?.data != null) {
@@ -102,7 +103,9 @@ class CustomLogInterceptor extends Interceptor {
         _printLine('╚');
         logPrint('');
       } else {
-        _printBoxed(header: '⛔ DioError ║ ${err.type} ║ ${DateTime.now()}', text: err.message);
+        _printBoxed(
+            header: '⛔ DioError ║ ${err.type} ║ ${DateTime.now()}',
+            text: err.message);
       }
     }
     super.onError(err, handler);
@@ -113,7 +116,8 @@ class CustomLogInterceptor extends Interceptor {
     _printResponseHeader(response);
     if (responseHeader) {
       final responseHeaders = <String, String>{};
-      response.headers.forEach((k, list) => responseHeaders[k] = list.toString());
+      response.headers
+          .forEach((k, list) => responseHeaders[k] = list.toString());
       _printMapAsTable(responseHeaders, header: 'Headers');
     }
 
@@ -152,7 +156,8 @@ class CustomLogInterceptor extends Interceptor {
     final uri = response.requestOptions.uri;
     final method = response.requestOptions.method;
     _printBoxed(
-      header: '👌 Response ║ $method ║ Status: ${response.statusCode} ${response.statusMessage} ║ ${DateTime.now()}',
+      header:
+          '👌 Response ║ $method ║ Status: ${response.statusCode} ${response.statusMessage} ║ ${DateTime.now()}',
       text: uri.toString(),
     );
   }
@@ -160,10 +165,13 @@ class CustomLogInterceptor extends Interceptor {
   void _printRequestHeader(RequestOptions options) {
     final uri = options.uri;
     final method = options.method;
-    _printBoxed(header: '🚀 Request ║ $method ║ ${DateTime.now()}', text: uri.toString());
+    _printBoxed(
+        header: '🚀 Request ║ $method ║ ${DateTime.now()}',
+        text: uri.toString());
   }
 
-  void _printLine([String pre = '', String suf = '╝']) => logPrint('$pre${'═' * maxWidth}$suf');
+  void _printLine([String pre = '', String suf = '╝']) =>
+      logPrint('$pre${'═' * maxWidth}$suf');
 
   void _printKV(String? key, Object? v) {
     final pre = '╟ $key: ';
@@ -180,7 +188,9 @@ class CustomLogInterceptor extends Interceptor {
   void _printBlock(String msg) {
     final lines = (msg.length / maxWidth).ceil();
     for (var i = 0; i < lines; ++i) {
-      logPrint((i >= 0 ? '║ ' : '') + msg.substring(i * maxWidth, math.min<int>(i * maxWidth + maxWidth, msg.length)));
+      logPrint((i >= 0 ? '║ ' : '') +
+          msg.substring(i * maxWidth,
+              math.min<int>(i * maxWidth + maxWidth, msg.length)));
     }
   }
 
@@ -257,7 +267,10 @@ class CustomLogInterceptor extends Interceptor {
   }
 
   bool _canFlattenMap(Map map) {
-    return map.values.where((dynamic val) => val is Map || val is List).isEmpty && map.toString().length < maxWidth;
+    return map.values
+            .where((dynamic val) => val is Map || val is List)
+            .isEmpty &&
+        map.toString().length < maxWidth;
   }
 
   bool _canFlattenList(List list) {
@@ -267,7 +280,8 @@ class CustomLogInterceptor extends Interceptor {
   void _printMapAsTable(Map? map, {String? header}) {
     if (map == null || map.isEmpty) return;
     logPrint('╔ $header ');
-    map.forEach((dynamic key, dynamic value) => _printKV(key.toString(), value));
+    map.forEach(
+        (dynamic key, dynamic value) => _printKV(key.toString(), value));
     _printLine('╚');
   }
 }

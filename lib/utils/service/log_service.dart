@@ -50,7 +50,8 @@ class MyPrinter extends LogPrinter {
   List<String> log(LogEvent event) {
     final icon = levelEmojis[event.level]!;
     final msg = event.message;
-    final time = Jiffy(DateTime.now()).format('h:mm:ss a');
+    final time =
+        Jiffy.parseFromDateTime(DateTime.now()).format(pattern: 'h:mm:ss a');
 
     return ['[$time] $icon $msg'];
   }

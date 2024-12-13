@@ -4,7 +4,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:jbbase_app/base/data/app_error.dart';
 import 'package:jbbase_app/l10n/generated/l10n.dart';
 
-typedef MyFormFieldState = FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>;
+typedef MyFormFieldState
+    = FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>;
 
 enum FormFieldType {
   email,
@@ -55,15 +56,20 @@ extension FormFieldTypeExtension on FormFieldType {
     switch (this) {
       case FormFieldType.email:
         validators = [
-          FormBuilderValidators.required(errorText: S.current.empty_email_error_message),
-          FormBuilderValidators.email(errorText: S.current.notification_mailaddress),
-          FormBuilderValidators.maxLength(128, errorText: S.current.max_length_email_error_message),
+          FormBuilderValidators.required(
+              errorText: S.current.empty_email_error_message),
+          FormBuilderValidators.email(
+              errorText: S.current.notification_mailaddress),
+          FormBuilderValidators.maxLength(128,
+              errorText: S.current.max_length_email_error_message),
         ];
         break;
       case FormFieldType.password:
         validators = [
-          FormBuilderValidators.required(errorText: S.current.empty_password_error_message),
-          FormBuilderValidators.minLength(8, errorText: S.current.max_length_password_error_message),
+          FormBuilderValidators.required(
+              errorText: S.current.empty_password_error_message),
+          FormBuilderValidators.minLength(8,
+              errorText: S.current.max_length_password_error_message),
         ];
         break;
       default:
@@ -86,7 +92,7 @@ extension ListFormFieldState on List<MyFormFieldState> {
     final isValid = map((e) => e.validate()).reduce((v, e) => v && e);
     if (!isValid) {
       final errorMessage = map(
-        (e) => e.errorText == null ? null : '${e.decoration.labelText}: ${e.errorText}',
+        (e) => e.errorText == null ? null : '${e}: ${e.errorText}',
       ).whereType<String>().toList().join('\n');
       throw AppException.invalidInput(errorMessage);
     }

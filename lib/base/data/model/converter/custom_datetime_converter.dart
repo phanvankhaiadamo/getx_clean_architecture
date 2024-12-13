@@ -6,7 +6,7 @@ class CustomDateTimeConverter implements ICustomConverter<DateTime> {
 
   @override
   DateTime fromJSON(dynamic jsonValue, DeserializationContext context) {
-    return Jiffy(jsonValue, "yyyy-MM-dd'T'HH:mm:ss").dateTime;
+    return Jiffy.parse(jsonValue, pattern: "yyyy-MM-dd'T'HH:mm:ss").dateTime;
   }
 
   @override
