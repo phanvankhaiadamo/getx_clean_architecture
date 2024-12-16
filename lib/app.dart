@@ -12,7 +12,7 @@ import 'utils/config/app_navigator_observer.dart';
 import 'utils/config/app_route.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp(this._localStorage, {Key? key}) : super(key: key);
+  const MyApp(this._localStorage, {super.key});
   final LocalStorage _localStorage;
 
   Locale _setLocale() {

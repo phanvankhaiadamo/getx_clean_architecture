@@ -10,7 +10,8 @@ class CommonPagedListView<T> extends StatelessWidget {
     required this.pagingController,
     required this.itemBuilder,
     this.animateTransitions = true,
-    this.transitionDuration = DurationConstants.defaultListGridTransitionDuration,
+    this.transitionDuration =
+        DurationConstants.defaultListGridTransitionDuration,
     this.firstPageErrorIndicator,
     this.newPageErrorIndicator,
     this.firstPageProgressIndicator,
@@ -89,56 +90,64 @@ class CommonPagedListView<T> extends StatelessWidget {
       itemBuilder: itemBuilder,
       animateTransitions: animateTransitions,
       transitionDuration: transitionDuration,
-      firstPageErrorIndicatorBuilder: (_) => firstPageErrorIndicator ?? const CommonFirstPageErrorIndicator(),
-      newPageErrorIndicatorBuilder: (_) => newPageErrorIndicator ?? const CommonNewPageErrorIndicator(),
-      firstPageProgressIndicatorBuilder: (_) => firstPageProgressIndicator ?? const CommonFirstPageProgressIndicator(),
-      newPageProgressIndicatorBuilder: (_) => newPageProgressIndicator ?? const CommonNewPageProgressIndicator(),
-      noItemsFoundIndicatorBuilder: (_) => noItemsFoundIndicator ?? const CommonNoItemsFoundIndicator(),
-      noMoreItemsIndicatorBuilder: (_) => noMoreItemsIndicator ?? const CommonNoMoreItemsIndicator(),
+      firstPageErrorIndicatorBuilder: (_) =>
+          firstPageErrorIndicator ?? const CommonFirstPageErrorIndicator(),
+      newPageErrorIndicatorBuilder: (_) =>
+          newPageErrorIndicator ?? const CommonNewPageErrorIndicator(),
+      firstPageProgressIndicatorBuilder: (_) =>
+          firstPageProgressIndicator ??
+          const CommonFirstPageProgressIndicator(),
+      newPageProgressIndicatorBuilder: (_) =>
+          newPageProgressIndicator ?? const CommonNewPageProgressIndicator(),
+      noItemsFoundIndicatorBuilder: (_) =>
+          noItemsFoundIndicator ?? const CommonNoItemsFoundIndicator(),
+      noMoreItemsIndicatorBuilder: (_) =>
+          noMoreItemsIndicator ?? const CommonNoMoreItemsIndicator(),
     );
 
-    PagedListView<int, T> pagedView(double maxWidth, double maxHeight) => separatorBuilder != null
-        ? PagedListView.separated(
-            pagingController: pagingController.pagingController,
-            builderDelegate: builderDelegate,
-            separatorBuilder: separatorBuilder!,
-            scrollDirection: scrollDirection,
-            reverse: reverse,
-            scrollController: scrollController,
-            primary: primary,
-            physics: physics,
-            shrinkWrap: shrinkWrap,
-            padding: padding,
-            cacheExtent: cacheExtent,
-            dragStartBehavior: dragStartBehavior,
-            keyboardDismissBehavior: keyboardDismissBehavior,
-            restorationId: restorationId,
-            clipBehavior: clipBehavior,
-            addAutomaticKeepAlives: addAutomaticKeepAlives,
-            addRepaintBoundaries: addRepaintBoundaries,
-            addSemanticIndexes: addSemanticIndexes,
-            itemExtent: itemExtent,
-          )
-        : PagedListView<int, T>(
-            pagingController: pagingController.pagingController,
-            builderDelegate: builderDelegate,
-            scrollDirection: scrollDirection,
-            reverse: reverse,
-            scrollController: scrollController,
-            primary: primary,
-            physics: physics,
-            shrinkWrap: shrinkWrap,
-            padding: padding,
-            cacheExtent: cacheExtent,
-            dragStartBehavior: dragStartBehavior,
-            keyboardDismissBehavior: keyboardDismissBehavior,
-            restorationId: restorationId,
-            clipBehavior: clipBehavior,
-            addAutomaticKeepAlives: addAutomaticKeepAlives,
-            addRepaintBoundaries: addRepaintBoundaries,
-            addSemanticIndexes: addSemanticIndexes,
-            itemExtent: itemExtent,
-          );
+    PagedListView<int, T> pagedView(double maxWidth, double maxHeight) =>
+        separatorBuilder != null
+            ? PagedListView.separated(
+                pagingController: pagingController.pagingController,
+                builderDelegate: builderDelegate,
+                separatorBuilder: separatorBuilder!,
+                scrollDirection: scrollDirection,
+                reverse: reverse,
+                scrollController: scrollController,
+                primary: primary,
+                physics: physics,
+                shrinkWrap: shrinkWrap,
+                padding: padding,
+                cacheExtent: cacheExtent,
+                dragStartBehavior: dragStartBehavior,
+                keyboardDismissBehavior: keyboardDismissBehavior,
+                restorationId: restorationId,
+                clipBehavior: clipBehavior,
+                addAutomaticKeepAlives: addAutomaticKeepAlives,
+                addRepaintBoundaries: addRepaintBoundaries,
+                addSemanticIndexes: addSemanticIndexes,
+                itemExtent: itemExtent,
+              )
+            : PagedListView<int, T>(
+                pagingController: pagingController.pagingController,
+                builderDelegate: builderDelegate,
+                scrollDirection: scrollDirection,
+                reverse: reverse,
+                scrollController: scrollController,
+                primary: primary,
+                physics: physics,
+                shrinkWrap: shrinkWrap,
+                padding: padding,
+                cacheExtent: cacheExtent,
+                dragStartBehavior: dragStartBehavior,
+                keyboardDismissBehavior: keyboardDismissBehavior,
+                restorationId: restorationId,
+                clipBehavior: clipBehavior,
+                addAutomaticKeepAlives: addAutomaticKeepAlives,
+                addRepaintBoundaries: addRepaintBoundaries,
+                addSemanticIndexes: addSemanticIndexes,
+                itemExtent: itemExtent,
+              );
 
     return LayoutBuilder(
       builder: (BuildContext ctx, BoxConstraints constraint) {
@@ -149,7 +158,7 @@ class CommonPagedListView<T> extends StatelessWidget {
 }
 
 class CommonFirstPageErrorIndicator extends StatelessWidget {
-  const CommonFirstPageErrorIndicator({Key? key}) : super(key: key);
+  const CommonFirstPageErrorIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {

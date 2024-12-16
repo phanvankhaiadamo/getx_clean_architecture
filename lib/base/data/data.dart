@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-library data;
+library;
 
 export 'app_error.dart';
 export 'base_mapper.dart';

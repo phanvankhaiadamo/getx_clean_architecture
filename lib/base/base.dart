@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-library base;
+library;
 
 export 'data/data.dart';
 export 'domain/domain.dart';
